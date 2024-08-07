@@ -1,5 +1,5 @@
 {
-    "name": "aperture-it/node-red-dashboard-2-dht22",
+    "name": "@aperture-it/node-red-dashboard-2-dht22",
     "version": "1.0.0",
     "description": "DHT22 widget for Node-RED Dashboard 2.0",
     "keywords": [
