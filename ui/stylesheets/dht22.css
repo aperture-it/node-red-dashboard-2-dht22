@@ -1,0 +1,130 @@
+html {
+    overflow-y: hidden
+}
+
+.v-card-text {
+    padding: 0;
+}
+
+.v-card {
+    border: none;
+}
+
+.v-card--variant-outlined {
+    border: none
+}
+
+.dht-wrapper {
+    height: 100vh;
+    width: 100vw;
+}
+
+.bg-1{
+    background-color: black;
+    color: white;
+}
+
+.bg-2{
+    background-color: #FEFEFE;
+    color: black;
+}
+
+.bg-3{
+    background-color: #2B2B29;
+    color: #F0E73B
+}
+
+.bg-4{
+    background-color: #FEFEFE;
+    color: #F0E73B;
+}
+
+.bg-5{
+    background-color: #CA3D2A;
+    color: #B4C938;
+}
+
+.bg-6{
+    background-color: #CA3D2A;
+    color: #2055BD;
+}
+
+.bg-7{
+    background-color: #FF1E00;
+    color: #2055BD;
+}
+
+.sensor {
+    font-size: 12em;
+    font-weight: bold;
+}
+
+.dht-wrapper>div {
+    height: 50%;
+    ;
+}
+
+.col,
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    width: auto;
+}
+
+.w50 {
+    width: 50%;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.border-bottom {
+    border-bottom: 3px solid currentColor
+}
+
+.border-right {
+    border-right: 3px solid currentColor
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.align-baseline {
+    align-items: baseline;
+}
+
+.title {
+    font-size: 2em;
+}
+
+.date {
+    font-size: 4em;
+    font-weight: bold;
+}
+
+.time {
+    font-size: 17.5em;
+    font-weight: bold;
+    line-height: 1.2em;
+}
+
+.seconds {
+    font-size: 7em;
+    font-weight: bold;
+}
+
+.unit {
+    font-size: 5em;
+    font-weight: bold;
+}
+
+.m-l-sm {
+    margin-left: 16px;
+}
