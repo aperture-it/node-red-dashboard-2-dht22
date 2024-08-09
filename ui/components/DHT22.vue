@@ -1,5 +1,6 @@
 <template>
-    <div class="dht-wrapper" :class="color">
+    <div v-if="monitor == 'no'" class="dht-wrapper-off"></div>
+    <div v-else class="dht-wrapper" :class="color">
         <div class="column align-center border-bottom justify-center">
             <div class="row title">Время</div>
             <div class="row align-baseline">
@@ -49,10 +50,14 @@ const props = defineProps({
 })
 
 interface ServerToClientEvents {
-    [key: string]: (msg: { payload: string }) => void;
+    [key: string]: (msg: { payload?: string, monitor?: string }) => void;
 }
 
-const $socket: Socket<ServerToClientEvents> | undefined = inject('$socket')
+interface ClientToServerEvents {
+    [key: string]: (id: string, msg: object) => void;
+}
+
+const $socket: Socket<ServerToClientEvents, ClientToServerEvents> | undefined = inject('$socket')
 
 const temp = ref('– –')
 const humidity = ref('– –')
@@ -62,6 +67,8 @@ const seconds = ref('00')
 
 const colors = ['1', '2', '3', '4', '5', '6', '7']
 const color = ref('bg-1')
+
+const monitor = ref('yes')
 
 const setOffline = () => {
     humidity.value = '– –'
@@ -80,6 +87,7 @@ const setDate = () => {
 }
 
 setInterval(() => {
+    $socket?.emit('get-monitor', props.id, {})
     setDate()
 }, 1000)
 
@@ -88,8 +96,15 @@ const isNumber = (str: string) => {
     return !isNaN(parseFloat(str))
 }
 
+const setMonitor = () => {
+    $socket?.emit('set-monitor', props.id, { payload: monitor.value == 'yes' ? 'yes' : 'no' })
+}
+
+
 onMounted(() => {
-    color.value = localStorage.getItem("color")||'bg-1';
+    color.value = localStorage.getItem("color") || 'bg-1'
+    monitor.value = localStorage.getItem("monitor") || 'yes'
+    setMonitor()
     setDate()
     $socket?.on(`msg-input:${props.id}`, (msg) => {
         if (typeof msg.payload === "string") {
@@ -104,17 +119,27 @@ onMounted(() => {
             } else {
                 if (colors.includes(msg.payload)) {
                     const c = `bg-${msg.payload}`
-                    color.value=c
+                    color.value = c
                     localStorage.setItem("color", c);
+                } else if (msg.payload == 'yes' || msg.payload == 'no') {
+                    monitor.value = msg.payload
                 }
             }
         }
     })
+    $socket?.on(`msg-in:${props.id}`, (msg) => {
+        if (msg.monitor) {
+            monitor.value = msg.monitor
+            localStorage.setItem("monitor", msg.monitor)
+        }
+    })
 })
+
 
 onUnmounted(() => {
     clearTimeout(offline)
     $socket?.off(`msg-input:${props.id}`)
+    $socket?.off(`msg-in:${props.id}`)
 })
 
 </script>
